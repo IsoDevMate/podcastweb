@@ -2,8 +2,13 @@
 // Do NOT use the reference screenshots in public/sections, public/sctiona, or
 // public/secb — those are full-page design mocks, not individual card assets.
 
+// Cinematic podcast studio — hero poster (shown while video loads)
 export const heroImage =
   'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1600&q=80'
+
+// Footer accent — moody low-key studio / sound-wave atmosphere
+export const footerBgImage =
+  'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1600&q=80'
 
 export const footerWatermarkImage =
   'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&q=80'

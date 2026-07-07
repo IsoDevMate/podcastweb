@@ -1,4 +1,5 @@
 import Hero from './components/layout/Hero'
+import AboutSection from './components/sections/AboutSection'
 import GalleryCollage from './components/sections/GalleryCollage'
 import StackedFeatureCards from './components/sections/StackedFeatureCards'
 import HandpickedSelections from './components/sections/HandpickedSelections'
@@ -9,6 +10,7 @@ function App() {
     <div className="min-h-screen bg-cream">
       <Hero />
       <GalleryCollage />
+      <AboutSection />
       <StackedFeatureCards />
       <HandpickedSelections />
       <FooterSection />

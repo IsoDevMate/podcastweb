@@ -1,0 +1,313 @@
+/* ═══════════════════════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════════════════════ */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 130svh;
+  min-height: 700px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background video */
+.hero-section__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Dark gradient overlay — 40–60 % opacity top-to-bottom for readability */
+.hero-section__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.22) 35%,
+    rgba(0, 0, 0, 0.60) 100%
+  );
+  z-index: 1;
+}
+
+/* ── Camera viewfinder grid (SVG) ────────────────────────
+   Full-bleed SVG sits above the overlay, below nav/content.
+   Lines are drawn at rule-of-thirds positions: 1/3 and 2/3
+   on both axes — exactly like a camera's grid overlay.
+   pointer-events:none ensures zero interaction interference.
+*/
+.hero-section__grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* All <line> elements share the same camera-finder style */
+.hero-section__grid line {
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 1px;
+  /* Crisp rendering — avoids sub-pixel blur on 1px lines */
+  shape-rendering: crispEdges;
+}
+
+/* Header sits above overlay */
+.hero-section__header {
+  position: relative;
+  z-index: 10;
+  padding: 20px 24px 0;
+}
+
+/* ── Navbar ─────────────────────────────── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 10px 16px 10px 20px;
+}
+
+.navbar__logo {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar__link {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+}
+
+.navbar__link:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: #1a0f0a;
+  color: #f5ead8;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.navbar__cta:hover {
+  background: #2e1d10;
+  transform: translateY(-1px);
+}
+
+/* Hamburger — hidden on desktop */
+.navbar__hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.18s;
+}
+
+.navbar__hamburger:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile drawer */
+.navbar__mobile-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 1200px;
+  margin: 10px auto 0;
+  background: rgba(15, 10, 8, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 12px;
+  animation: drawerSlideIn 0.2s ease;
+}
+
+@keyframes drawerSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.navbar__mobile-link {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.navbar__mobile-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.navbar__mobile-cta {
+  margin-top: 8px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  background: #1a0f0a;
+  color: #f5ead8;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* ── Hero content ────────────────────────── */
+.hero-section__content {
+  position: relative;
+  z-index: 10;
+  margin-top: auto;
+  padding: 0 24px 56px;
+  max-width: 1200px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  /* override: push to bottom */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.hero-section__sub {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.hero-section__headline {
+  margin: 0 0 32px;
+  font-size: clamp(48px, 8vw, 100px);
+  font-weight: 700;
+  line-height: 0.93;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.hero-section__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.15s, border-color 0.18s;
+}
+
+.hero-btn--primary {
+  background: #f5ead8;
+  color: #1a0f0a;
+}
+
+.hero-btn--primary:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.hero-btn--ghost {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.hero-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ── Responsive ────────────────────────── */
+@media (max-width: 768px) {
+  .navbar__links {
+    display: none;
+  }
+
+  .navbar__hamburger {
+    display: inline-flex;
+  }
+
+  .hero-section__content {
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section__header {
+    padding: 16px 16px 0;
+  }
+
+  .hero-section__content {
+    padding: 0 16px 32px;
+  }
+
+  .navbar {
+    padding: 8px 12px 8px 16px;
+  }
+}

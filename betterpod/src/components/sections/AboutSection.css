@@ -1,0 +1,153 @@
+/* ═══════════════════════════════════════════════════════
+   ABOUT SECTION
+═══════════════════════════════════════════════════════ */
+.about-section {
+  background-color: #f5ead8;
+  padding: 96px 24px 96px;
+  /* No overflow:hidden — keeps GSAP ScrollTrigger able to fire */
+}
+
+.about-section__inner {
+  max-width: 1152px;
+  margin: 0 auto;
+  display: grid;
+  /* Left col: image cluster | Right col: text */
+  grid-template-columns: 380px 1fr;
+  gap: 64px 80px;
+  /* start — not center — so the cluster can slide freely downward */
+  align-items: start;
+}
+
+/* ── Text column ─────────────────────────── */
+.about-section__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.about-section__eyebrow span {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a6a56;
+  border-bottom: 2px solid #c4943a;
+  padding-bottom: 2px;
+}
+
+.about-section__heading {
+  margin: 0 0 24px;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #1a0f0a;
+}
+
+.about-section__body {
+  margin: 0 0 32px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #5a4a38;
+  max-width: 480px;
+}
+
+.about-section__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background-color: #1a0f0a;
+  color: #f5ead8;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.15s;
+  margin-bottom: 36px;
+}
+
+.about-section__cta:hover {
+  background-color: #2e1d10;
+  transform: translateY(-1px);
+}
+
+.about-section__links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.about-section__link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3a2a1a;
+  text-decoration: none;
+  transition: color 0.2s, gap 0.2s;
+}
+
+.about-section__link-item:hover {
+  color: #c4943a;
+  gap: 14px;
+}
+
+.about-section__link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(196, 148, 58, 0.15);
+  color: #c4943a;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.about-section__link-item:hover .about-section__link-icon {
+  background: rgba(196, 148, 58, 0.28);
+}
+
+/* ── Text column — sticky so it stays in view while cluster animates */
+.about-section__text {
+  position: sticky;
+  top: 120px; /* sits below the navbar */
+  align-self: start;
+}
+
+/* ── Media column ────────────────────────── */
+.about-section__media {
+  display: block;
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 1024px) {
+  .about-section__inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    text-align: center;
+  }
+
+  .about-section__media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-section__body {
+    max-width: 100%;
+  }
+
+  .about-section__links {
+    align-items: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-section {
+    padding: 64px 20px 72px;
+  }
+}
