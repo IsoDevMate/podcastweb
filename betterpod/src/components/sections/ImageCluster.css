@@ -1,20 +1,24 @@
-/* ── Sentinel — defines the scroll range ────
-   Height = stack (420px) + padding-bottom (980px) = 1400px.
-   This gives GSAP ~2300px of scroll range on a 900px screen,
-   making y:700 travel at ~0.30px per scroll pixel — clearly
-   visible without being jarring.                              */
-.image-cluster__sentinel {
+/* ── Outer wrap — getBoundingClientRect() measured here ──
+   Must be TALLER than the viewport so scroll progress
+   actually advances while the section is visible.
+   The sticky text column on the right stays in place
+   while this scrolls.                                    */
+.image-cluster__wrap {
   position: relative;
   width: 280px;
-  padding-bottom: 980px;
+  /* 150vh = 1.5× screen height — progress goes from 0→1 over
+     a full viewport-height of scrolling. y:160px over ~1500px
+     of travel = ~0.11px/px — smooth, visible parallax.       */
+  min-height: 150vh;
+  overflow: visible;
 }
 
-/* ── Stack — GSAP translates this (y: 0 → 700px) ─────── */
+/* ── Stack — JS writes translateY() here ──────────────── */
 .image-cluster__stack {
-  position: relative;
+  position: sticky;
+  top: 120px;
   width: 280px;
   height: 420px;
-  will-change: transform;
   overflow: visible;
 }
 
@@ -53,7 +57,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
-/* GSAP owns this element's transform — no CSS transform here */
+/* JS writes: translateX(-50%) rotate(Xdeg) — no CSS transform */
 .image-cluster__circle--main {
   width: 200px;
   height: 200px;
@@ -96,9 +100,9 @@
 
 /* ── Responsive ─────────────────────────── */
 @media (max-width: 640px) {
-  .image-cluster__sentinel {
+  .image-cluster__wrap {
     width: 220px;
-    padding-bottom: 600px;
+    min-height: 120vh;
   }
 
   .image-cluster__stack {

@@ -1,11 +1,7 @@
 'use no memo'
 
 import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './ImageCluster.css'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const IMAGES = {
   guest: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
@@ -13,65 +9,54 @@ const IMAGES = {
 }
 
 export default function ImageCluster() {
-  const sentinelRef = useRef<HTMLDivElement>(null)
-  const stackRef    = useRef<HTMLDivElement>(null)
-  const spinRef     = useRef<HTMLDivElement>(null)
+  const wrapRef  = useRef<HTMLDivElement>(null) // outer — position reference
+  const stackRef = useRef<HTMLDivElement>(null) // translateY target
+  const spinRef  = useRef<HTMLDivElement>(null) // rotate target
 
   useEffect(() => {
-    const sentinel = sentinelRef.current
-    const stack    = stackRef.current
-    const spin     = spinRef.current
-    if (!sentinel || !stack || !spin) return
+    const wrap  = wrapRef.current
+    const stack = stackRef.current
+    const spin  = spinRef.current
+    if (!wrap || !stack || !spin) return
 
-    gsap.set(spin, { xPercent: -50 })
+    let raf = 0
 
-    // Sentinel is 1400px tall (420px stack + 980px padding-bottom).
-    // Scroll range = sentinel height + viewport height ≈ 2300px on a
-    // 900px screen.  y:700 across 2300px = 0.30px/px — clearly visible.
-    const slideAnim = gsap.fromTo(stack,
-      { y: 0 },
-      {
-        y: 700,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sentinel,
-          start: 'top bottom',
-          end:   'bottom top',
-          scrub: 0.5,
-        },
-      }
-    )
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const rect = wrap.getBoundingClientRect()
+        const vh   = window.innerHeight
 
-    const spinAnim = gsap.fromTo(spin,
-      { rotation: 0 },
-      {
-        rotation: 1080,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sentinel,
-          start: 'top bottom',
-          end:   'bottom top',
-          scrub: 0.5,
-        },
-      }
-    )
+        // progress 0 → 1 as the wrap scrolls from entering the viewport
+        // bottom to exiting the viewport top.
+        // total = wrap height + viewport height (full travel distance)
+        const total    = rect.height + vh
+        const traveled = vh - rect.top
+        const progress = Math.min(1, Math.max(0, traveled / total))
 
-    const imgs = Array.from(sentinel.querySelectorAll('img'))
-    let loaded = 0
-    const onLoad = () => { if (++loaded === imgs.length) ScrollTrigger.refresh() }
-    imgs.forEach(img => img.complete ? onLoad() : img.addEventListener('load', onLoad, { once: true }))
-    window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true })
-    const t = setTimeout(() => ScrollTrigger.refresh(), 600)
+        // y: 0 → 160px  (visually clear without leaving the section)
+        // rotate: 0 → 360deg (one full turn — clearly visible)
+        stack.style.transform = `translateY(${progress * 160}px)`
+        spin.style.transform  = `translateX(-50%) rotate(${progress * 360}deg)`
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+    onScroll()
 
     return () => {
-      clearTimeout(t)
-      slideAnim.scrollTrigger?.kill()
-      spinAnim.scrollTrigger?.kill()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      cancelAnimationFrame(raf)
     }
   }, [])
 
   return (
-    <div ref={sentinelRef} className="image-cluster__sentinel">
+    // wrapRef is on the outermost div — tall enough to give a real scroll range.
+    // The section's sticky text column keeps the right column visible while
+    // this left column scrolls its full height through the viewport.
+    <div ref={wrapRef} className="image-cluster__wrap">
       <div ref={stackRef} className="image-cluster__stack">
 
         <div className="image-cluster__circle image-cluster__circle--accent" />

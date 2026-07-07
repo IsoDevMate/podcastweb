@@ -3,22 +3,35 @@
 ═══════════════════════════════════════════════════════ */
 .about-section {
   background-color: #f5ead8;
-  padding: 96px 24px 96px;
-  /* No overflow:hidden — keeps GSAP ScrollTrigger able to fire */
+  padding: 96px 24px 200px; /* 200px bottom = absorbs the 160px slide travel */
 }
 
 .about-section__inner {
   max-width: 1152px;
   margin: 0 auto;
   display: grid;
-  /* Left col: image cluster | Right col: text */
   grid-template-columns: 380px 1fr;
   gap: 64px 80px;
-  /* start — not center — so the cluster can slide freely downward */
   align-items: start;
+  /* overflow visible so the stack's translateY doesn't get clipped
+     by the grid cell boundary when it slides below its natural height */
+  overflow: visible;
 }
 
-/* ── Text column ─────────────────────────── */
+/* ── Media column — left ─────────────────── */
+.about-section__media {
+  display: block;
+  overflow: visible; /* critical — lets the stack paint outside the cell */
+}
+
+/* ── Text column — right, sticky ────────── */
+.about-section__text {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+/* ── Text styles ─────────────────────────── */
 .about-section__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -112,18 +125,6 @@
   background: rgba(196, 148, 58, 0.28);
 }
 
-/* ── Text column — sticky so it stays in view while cluster animates */
-.about-section__text {
-  position: sticky;
-  top: 120px; /* sits below the navbar */
-  align-self: start;
-}
-
-/* ── Media column ────────────────────────── */
-.about-section__media {
-  display: block;
-}
-
 /* ── Responsive ─────────────────────────── */
 @media (max-width: 1024px) {
   .about-section__inner {
@@ -137,6 +138,10 @@
     justify-content: center;
   }
 
+  .about-section__text {
+    position: static; /* un-sticky on mobile — not enough width for two cols */
+  }
+
   .about-section__body {
     max-width: 100%;
   }
@@ -148,6 +153,6 @@
 
 @media (max-width: 640px) {
   .about-section {
-    padding: 64px 20px 72px;
+    padding: 64px 20px 100px;
   }
 }

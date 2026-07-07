@@ -17,6 +17,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* offset anchor jumps so content isn't hidden behind the navbar */
+  scroll-padding-top: 80px;
+  /* prevent overscroll bounce fighting with scroll-linked animations */
+  overscroll-behavior: none;
 }
 
 body {
@@ -25,6 +29,8 @@ body {
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* iOS momentum scrolling — makes scroll feel native on Safari */
+  -webkit-overflow-scrolling: touch;
 }
 
 #root {
